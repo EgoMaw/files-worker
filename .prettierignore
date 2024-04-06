@@ -1,0 +1,12 @@
+# Ignore artifacts:
+.output
+dist
+functions
+node_modules
+build
+coverage
+.github
+.husky
+README.md
+pnpm-lock.yaml
+tsconfig.json

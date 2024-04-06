@@ -1,0 +1,41 @@
+{
+	"name": "files-worker",
+	"version": "1.0.0",
+	"description": "Cloudflare Worker to handle file uploads to R2, primarly in use with Sharex",
+	"homepage": "https://github.com/EgoMaw/files-worker#readme",
+	"bugs": {
+		"url": "https://github.com/EgoMaw/files-worker/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/EgoMaw/files-worker.git"
+	},
+	"license": "MIT",
+	"author": "Kimon Gavrielatos <kimon@egomaw.net> (https://egomaw.net)",
+	"type": "module",
+	"scripts": {
+		"build": "wrangler deploy --dry-run --outdir dist",
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy",
+		"lint": "eslint",
+		"lint:fix": "eslint --fix",
+		"publish": "wrangler publish",
+		"test": "vitest"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "0.1.17",
+		"@cloudflare/workers-types": "4.20240405.0",
+		"@egomaw/eslint-config": "^1.0.0",
+		"@eslint/js": "^9.0.0",
+		"eslint": "^9.0.0",
+		"itty-router": "5.0.9",
+		"prettier": "3.2.5",
+		"render2": "1.4.1",
+		"typescript": "5.4.4",
+		"vitest": "1.3.0",
+		"wrangler": "3.48.0"
+	},
+	"engines": {
+		"node": ">=18"
+	}
+}
