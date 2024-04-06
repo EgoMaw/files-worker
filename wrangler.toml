@@ -1,5 +1,5 @@
 name = "sharex-r2-cloudflare-workers"
-account_id = "<Replace with your domain>"
+account_id = "<Replace with your account ID>"
 
 workers_dev = false
 routes = [
