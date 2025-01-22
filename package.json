@@ -23,17 +23,17 @@
 		"test": "vitest"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.5.33",
-		"@cloudflare/workers-types": "4.20241202.0",
+		"@cloudflare/vitest-pool-workers": "0.6.5",
+		"@cloudflare/workers-types": "4.20250121.0",
 		"@egomaw/eslint-config": "^1.1.0",
-		"@eslint/js": "^9.16.0",
-		"eslint": "^9.16.0",
+		"@eslint/js": "^9.18.0",
+		"eslint": "^9.18.0",
 		"itty-router": "5.0.18",
 		"prettier": "3.4.2",
 		"render2": "1.4.1",
-		"typescript": "5.7.2",
+		"typescript": "5.7.3",
 		"vitest": "2.1.8",
-		"wrangler": "3.92.0"
+		"wrangler": "3.104.0"
 	},
 	"engines": {
 		"node": ">=18"
