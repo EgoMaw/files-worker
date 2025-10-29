@@ -26,7 +26,7 @@ const getFile = async (request: IRequestStrict, env: Env, ctx: ExecutionContext)
 		throw notFound();
 	}
 	const url = new URL(request.url);
-	// More efficient: remove prefixes in one pass using regex
+	// More efficient: remove prefixes using string operations instead of chained replace calls
 	let id = url.pathname.slice(1); // Remove leading slash
 	if (id.startsWith('file/')) {
 		id = id.slice(5);
