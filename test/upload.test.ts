@@ -55,7 +55,7 @@ describe('worker - upload', () => {
 		const urlParams = new URLSearchParams();
 		urlParams.set('filename', `${env.NO_FOLDERS ? '' : folder + '/'}test-upload`);
 		urlParams.set('authkey', 'test');
-		expect(results.deleteUrl).toBe(`https://i.egomaw.net/delete?${urlParams}`);
+		expect(results.deleteUrl).toBe(`https://i.egomaw.net/delete?${urlParams.toString()}`);
 	});
 
 	it('upload: correctly ignores folders if specified', async () => {
@@ -82,6 +82,6 @@ describe('worker - upload', () => {
 		const urlParams = new URLSearchParams();
 		urlParams.set('filename', `cats/test-upload`);
 		urlParams.set('authkey', 'test');
-		expect(results.deleteUrl).toBe(`https://i.egomaw.net/delete?${urlParams}`);
+		expect(results.deleteUrl).toBe(`https://i.egomaw.net/delete?${urlParams.toString()}`);
 	});
 });
