@@ -1,6 +1,5 @@
 import { type IRequestStrict, IttyRouter, StatusError } from 'itty-router';
 import render2 from 'render2';
-import type { Env } from './types';
 
 type CF = [env: Env, ctx: ExecutionContext];
 const router = IttyRouter<IRequestStrict, CF>();
