@@ -1,18 +1,18 @@
 import { type IRequestStrict, IttyRouter, StatusError } from 'itty-router';
-import * as crypto from 'node:crypto';
 import render2 from 'render2';
-import type { Env } from './types';
 
 type CF = [env: Env, ctx: ExecutionContext];
 const router = IttyRouter<IRequestStrict, CF>();
 
 // handle authentication
 const authMiddleware = (request: IRequestStrict, env: Env) => {
+	// Check header first as it's more common and faster
+	if (request.headers?.get('x-Api-Key') === env.AUTH_KEY) {
+		return;
+	}
+	// Only parse URL if header check fails
 	const url = new URL(request.url);
-	if (
-		request.headers?.get('x-Api-Key') !== env.AUTH_KEY &&
-		url.searchParams.get('authkey') !== env.AUTH_KEY
-	) {
+	if (url.searchParams.get('authkey') !== env.AUTH_KEY) {
 		throw new StatusError(401, 'Missing auth');
 	}
 };
@@ -25,7 +25,13 @@ const getFile = async (request: IRequestStrict, env: Env, ctx: ExecutionContext)
 		throw notFound();
 	}
 	const url = new URL(request.url);
-	const id = url.pathname.replace('file/', '').replace('upload/', '').slice(1);
+	// More efficient: remove prefixes using string operations instead of chained replace calls
+	let id = url.pathname.slice(1); // Remove leading slash
+	if (id.startsWith('file/')) {
+		id = id.slice(5);
+	} else if (id.startsWith('upload/')) {
+		id = id.slice(7);
+	}
 
 	if (!id) {
 		throw notFound('File Not Found');
@@ -81,29 +87,27 @@ router
 		}
 
 		// return the image url to ShareX
-		const returnUrl = new URL(request.url);
-		returnUrl.searchParams.delete('filename');
-		returnUrl.searchParams.delete('category');
-		returnUrl.searchParams.delete('noFolders');
+		// Reuse the URL object instead of creating a new one
+		url.searchParams.delete('filename');
+		url.searchParams.delete('category');
+		url.searchParams.delete('noFolders');
 
-		returnUrl.pathname = !env.NO_FOLDERS && !noFolders ? `/file/${filename}` : `/${filename}`;
+		// Create deleteUrl before modifying host (it needs original host)
+		const deleteUrl = new URL(url);
+		deleteUrl.pathname = '/delete';
+		deleteUrl.searchParams.set('filename', filename);
+		deleteUrl.searchParams.set('authkey', env.AUTH_KEY);
+
+		url.pathname = !env.NO_FOLDERS && !noFolders ? `/file/${filename}` : `/${filename}`;
 
 		if (env.CUSTOM_PUBLIC_BUCKET_DOMAIN) {
-			returnUrl.host = env.CUSTOM_PUBLIC_BUCKET_DOMAIN;
-			returnUrl.pathname = filename;
+			url.host = env.CUSTOM_PUBLIC_BUCKET_DOMAIN;
+			url.pathname = filename;
 		}
-
-		const deleteUrl = new URL(request.url);
-		deleteUrl.searchParams.delete('category');
-		deleteUrl.searchParams.delete('noFolders');
-
-		deleteUrl.pathname = '/delete';
-		deleteUrl.searchParams.set('authkey', env.AUTH_KEY);
-		deleteUrl.searchParams.set('filename', filename);
 
 		return {
 			success: true,
-			image: returnUrl.href,
+			image: url.href,
 			deleteUrl: deleteUrl.href,
 		};
 	})

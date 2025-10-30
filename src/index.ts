@@ -1,11 +1,4 @@
-import {
-	Router,
-	cors,
-	error,
-	type ResponseHandler,
-	json,
-	type IRequestStrict,
-} from 'itty-router';
+import { Router, cors, error, type ResponseHandler, json, type IRequestStrict } from 'itty-router';
 
 import { router as routes } from './routes';
 

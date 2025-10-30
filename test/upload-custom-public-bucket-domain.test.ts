@@ -60,6 +60,6 @@ describe('worker - upload CUSTOM_PUBLIC_BUCKET_DOMAIN', () => {
 		const urlParams = new URLSearchParams();
 		urlParams.set('filename', `${env.NO_FOLDERS ? '' : folder + '/'}test-upload`);
 		urlParams.set('authkey', 'test');
-		expect(results.deleteUrl).toBe(`https://i.egomaw.net/delete?${urlParams}`);
+		expect(results.deleteUrl).toBe(`https://i.egomaw.net/delete?${urlParams.toString()}`);
 	});
 });
